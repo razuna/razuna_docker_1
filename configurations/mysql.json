@@ -1,0 +1,22 @@
+{
+	"volumes" : [
+		{
+			"host" : "/Users/nitai/Documents/repos/razuna_docker_1/shared/mysql",
+			"container" : "/var/lib/mysql"
+		},
+		{
+			"host" : "/Users/nitai/Documents/repos/razuna_docker_1/shared/mysql/etc",
+			"container" : "/etc/mysql"
+		},
+		{
+			"host" : "/Users/nitai/Documents/repos/razuna_docker_1/shared/mysql/logs",
+			"container" : "/var/logs/mysql"
+		}
+	],
+	"ports" : [
+		{
+			"host" : "3306",
+			"container" : "3306"
+		}
+	]
+}

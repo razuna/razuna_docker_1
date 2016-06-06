@@ -1,0 +1,36 @@
+{
+	"volumes" : [
+		{
+			"host" : "/Users/nitai/Documents/repos/razuna_docker_1/shared/razuna/assets",
+			"container" : "/opt/tomcat/webapps/razuna/assets"
+		},
+		{
+			"host" : "/Users/nitai/Documents/repos/razuna_docker_1/shared/razuna/db",
+			"container" : "/opt/tomcat/webapps/razuna/db"
+		},
+		{
+			"host" : "/Users/nitai/Documents/repos/razuna_docker_1/shared/razuna/bluedragon",
+			"container" : "/opt/tomcat/webapps/razuna/WEB-INF/bluedragon"
+		},
+		{
+			"host" : "/Users/nitai/Documents/repos/razuna_docker_1/shared/razuna-searchserver/collections",
+			"container" : "/opt/tomcat/webapps/razuna-searchserver/WEB-INF/collections"
+		},
+		{
+			"host" : "/Users/nitai/Documents/repos/razuna_docker_1/shared/razuna-searchserver/bluedragon",
+			"container" : "/opt/tomcat/webapps/razuna-searchserver/WEB-INF/bluedragon"
+		}
+	],
+	"ports" : [
+		{
+			"host" : "8080",
+			"container" : "8080"
+		},
+		{
+			"host" : "2222",
+			"container" : "22"
+		}
+	],
+	"memory" : "8G",
+	"demonized" : true
+}

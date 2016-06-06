@@ -1,5 +1,5 @@
 # Start
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 MAINTAINER Nitai Aventaggiato "https://twitter.com/thenitai"
 
 # ADD MULTIVERSE
@@ -7,11 +7,6 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu/ trusty multiverse" >> /etc/apt/s
 RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ trusty multiverse" >> /etc/apt/sources.list
 RUN echo "deb http://archive.ubuntu.com/ubuntu/ trusty-updates multiverse" >> /etc/apt/sources.list
 RUN echo "deb-src http://archive.ubuntu.com/ubuntu/ trusty-updates multiverse" >> /etc/apt/sources.list
-
-# For MySQL
-# RUN groupadd -r mysql && useradd -r -g mysql mysql
-# RUN echo mysql-server mysql-server/root_password password razuna | /usr/bin/debconf-set-selections
-# RUN echo mysql-server mysql-server/root_password_again password razuna | /usr/bin/debconf-set-selections
 
 # SET ENV NONINTERACTIVE
 ENV DEBIAN_FRONTEND noninteractive
@@ -32,6 +27,11 @@ RUN apt-get -y install memcached
 # MYSQL
 # RUN apt-get -y install mysql-server
 
+# For MySQL
+# RUN groupadd -r mysql && useradd -r -g mysql mysql
+# RUN echo mysql-server mysql-server/root_password password razuna | /usr/bin/debconf-set-selections
+# RUN echo mysql-server mysql-server/root_password_again password razuna | /usr/bin/debconf-set-selections
+
 # IMAGEMAGICK
 RUN apt-get -y install imagemagick
 
@@ -43,28 +43,32 @@ RUN apt-get -y install ufraw
 RUN apt-get -y install gpac
 
 # SSH
-ADD ../razuna/install-ssh /tmp/install-ssh
+ADD install-ssh /tmp/install-ssh
 RUN /tmp/install-ssh
 
 # JAVA 8
-ADD ../razuna/install-java /tmp/install-java
+ADD install-java /tmp/install-java
 RUN /tmp/install-java
 
 # FFMPEG
-ADD ../razuna/install-ffmpeg /tmp/install-ffmpeg
+ADD install-ffmpeg /tmp/install-ffmpeg
 RUN /tmp/install-ffmpeg
 
 # EXIFTOOL
-ADD ../razuna/install-exiftool /tmp/install-exiftool
+ADD install-exiftool /tmp/install-exiftool
 RUN /tmp/install-exiftool
 
 # GHOSTSCRIPT
-ADD ../razuna/install-ghostscript /tmp/install-ghostscript
+ADD install-ghostscript /tmp/install-ghostscript
 RUN /tmp/install-ghostscript
 
 # TOMCAT
-ADD ../razuna/install-tomcat /tmp/install-tomcat
+ADD install-tomcat /tmp/install-tomcat
 RUN /tmp/install-tomcat
+
+# RAZUNA
+ADD install-razuna /tmp/install-razuna
+RUN /tmp/install-razuna
 
 # COPY FILES AROUND
 COPY setenv.sh /opt/tomcat/bin/setenv.sh

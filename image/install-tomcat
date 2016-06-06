@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Get Tomcat from us
+wget http://s.razuna.com.s3.amazonaws.com/apache-tomcat-7.0.54.tar.gz -P /opt
+tar -C /opt -xzvf /opt/apache-tomcat-7.0.54.tar.gz
+ln -s /opt/apache-tomcat-7.0.54 /opt/tomcat
+# Install native Tomcat library
+apt-get -y install libapr1 gcc libssl-dev libapr1-dev
+mkdir /usr/local/apr/
+mkdir /usr/local/apr/lib
+cd /opt/tomcat/bin && tar -xzvf tomcat-native.tar.gz
+cd /opt/tomcat/bin/tomcat-native-1.1.30-src/jni/native/ && ./configure --with-apr=/usr/bin/apr-config --with-java-home=/usr/lib/jvm/java-8-oracle --prefix=/opt/tomcat && make && make install
+ln -s /opt/tomcat/lib/libtcnative-1.so.0.1.30 /usr/local/apr/lib/libtcnative-1.so

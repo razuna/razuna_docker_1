@@ -1,3 +1,0 @@
-RUN cd /opt/tomcat/webapps
-RUN git clone https://github.com/razuna/razuna.git
-RUN git clone https://github.com/razuna/razuna-searchserver.git

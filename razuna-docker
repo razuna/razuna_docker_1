@@ -1,0 +1,136 @@
+#!/usr/bin/env node
+
+// Require
+var shelljs = require('shelljs');
+var colors = require('colors');
+var getUsage = require('command-line-usage');
+var actions = require('./scripts/actions');
+var package = require('./package');
+
+// Parse arguments
+var args = require('minimist')(process.argv.slice(2));
+
+// Shell vars
+var _root = shelljs.exec('[[ $EUID ]]').code;
+
+// Let's check that we run as root
+if (_root !== 0) {
+	console.log('This script must be run as root. Please sudo or log in as root first!'.red);
+	shelljs.exit(1);
+}
+
+// Let's check that Docker is installed
+if (!shelljs.which('docker')) {
+	console.log('Looks like Docker is not installed on your system. Please make sure to install Docker first and then run this script again!'.yellow);
+	shelljs.exit(1);
+}
+
+// Let's check that git is installed
+if (!shelljs.which('git')) {
+	console.log('Looks like Git is not installed on your system. Please make sure to install Git first and then run this script again!'.yellow);
+	shelljs.exit(1);
+}
+
+// All tests passes. Let's continue...
+
+
+
+// Check that default argument is here
+var _cmd = args._;
+var _cmd_string = _cmd[0];
+var _c = args.c && args.c.length ? args.c : false;
+// var _vl = _v && args.v.length && Array.isArray(args.v) ? args.v.length : false;
+
+// No command given. Output help
+if ( !_cmd.length ) {
+	outputHelp(); 
+}
+// if the volumes are not defined or have no length
+// else if ( _cmd_string === 'start' && (!_v || !_vl) ) {
+// 	outputHelp(); 
+// }
+
+// Decide on command
+if ( _cmd_string === 'build' ) {
+	actions.build();
+}
+else if ( _cmd_string === 'start' ) {
+	if ( !_c ) {
+		console.log('You defined the -c but did not add a configuration file!'.red);
+		shelljs.exit(1);
+	}
+	console.log('We are starting Razuna Docker...'.green);
+	// Get configfuration string
+	
+}
+else {
+	outputHelp(); 
+}
+
+
+
+
+function outputHelp() {
+	var sections = [
+		{
+			header: 'Razuna Docker Help',
+			content: 'Generates something [italic]{very} important.'
+		},
+		{
+			header: 'Commands',
+			content: [
+				{
+					name: 'build',
+					summary: 'Build or re-build the Razuna Docker Container'
+				},
+				{
+					name: 'start -v',
+					summary: 'Start the Razuna Docker Container for you. Note: You should pass in (volumes) in order to have persistant data!'
+				},
+				{
+					name: 'help', 
+					summary: 'Print this usage guide.'
+				}
+			]
+		},
+		{
+			header: 'Examples',
+			content: [
+				{ 
+					name: 'razuna-docker build'
+				},
+				{ 
+					name: 'razuna-docker start -v /home/nitai/razuna/assets:/opt/tomcat/webapps/razuna/assets -v /home/nitai/razuna-searchserver/WEB-INF/collections:/opt/tomcat/webapps/razuna-searchserver/WEB-INF/collections'
+				}
+			]
+		},
+		{
+			header: 'NOTE',
+			content: [
+				{
+					desc: 'In order to have persistant data you need to store data from the container on your host. The following directories should be mounted with the -v switch:\n\n',
+					example: ''
+				},
+				{ 
+					desc: '--------\nRazuna',
+					example: '--------\n/opt/tomcat/webapps/razuna/assets\n/opt/tomcat/webapps/razuna/db\n/opt/tomcat/webapps/razuna/WEB-INF/bluedragon'
+				},
+				{ 
+					desc: '--------\nRazuna-Searchserver',
+					example: '--------\n/opt/tomcat/webapps/razuna-searchserver/WEB-INF/collections\n/opt/tomcat/webapps/razuna/WEB-INF/bluedragon'
+				},
+				{ 
+					desc: '--------\nNginx',
+					example: '--------\n/etc/nginx/nginx.conf\n/etc/nginx/sites-available\n/etc/nginx/sites-enabled'
+				},
+				{ 
+					desc: '--------\nMySQL',
+					example: '--------\n/etc/mysql/my.conf\n/var/lib/mysql\n--------'
+				}
+			]
+		}
+	];
+	var usage = getUsage(sections);
+	console.log(usage);
+	shelljs.exit(1);
+}

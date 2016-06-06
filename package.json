@@ -1,0 +1,35 @@
+{
+  "name": "razuna_docker_1",
+  "version": "1.8.5",
+  "description": "This is the offical Docker image for Razuna v1 (Docker image for Razuna v2 is here)[https://github.com/razuna/razuna_docker_2]. With this script you can quickly get Razuna up and running with Docker.",
+  "main": "index.js",
+  "preferGlobal": "true",
+  "bin": {
+    "razuna-docker": "./razuna-docker.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/razuna/razuna_docker_1.git"
+  },
+  "author": "Nitai Aventaggiato",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/razuna/razuna_docker_1/issues"
+  },
+  "homepage": "https://github.com/razuna/razuna_docker_1#readme",
+  "dependencies": {
+    "cli": "^0.11.2",
+    "colors": "^1.1.2",
+    "command-line-args": "^3.0.0",
+    "command-line-usage": "^3.0.1",
+    "commander": "^2.9.0",
+    "minimist": "^1.2.0",
+    "node-dockerfile": "^0.3.4",
+    "prompt": "^1.0.0",
+    "shelljs": "^0.7.0",
+    "vorpal": "^1.10.10"
+  }
+}
