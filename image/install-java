@@ -3,8 +3,7 @@
 # JAVA
 apt-add-repository -y ppa:webupd8team/java
 # Update
-apt-get update
-apt-get install -y debconf-utils
+apt-get update && apt-get install -y debconf-utils
 # TRICK TO SET LICENSE FOR JAVA INSTALL
 echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
 echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections

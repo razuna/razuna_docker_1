@@ -13,5 +13,3 @@ sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
 
 echo "export VISIBLE=now" >> /etc/profile
-
-service ssh restart
