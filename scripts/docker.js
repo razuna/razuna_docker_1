@@ -9,7 +9,7 @@ var DockerFile = function() {
 		// Initial 
 		myFile = dockerFile
 			.comment("START")
-			.from("ubuntu:16.04")
+			.from("ubuntu:14.04")
 			.maintainer('Nitai Aventaggiato "https://twitter.com/thenitai"')
 			.newLine()
 			.comment("ADD MULTIVERSE")
