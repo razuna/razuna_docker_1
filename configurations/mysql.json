@@ -10,7 +10,7 @@
 		},
 		{
 			"host" : "",
-			"container" : "/var/logs/mysql"
+			"container" : "/var/log/mysql"
 		}
 	],
 	"ports" : [
