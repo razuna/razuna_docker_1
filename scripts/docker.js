@@ -46,7 +46,7 @@ var DockerFile = function() {
 		}
 
 		// Nginx
-		if (mysql === 'yes') {
+		if (nginx === 'yes') {
 			myFile = dockerFile
 				.newLine()
 				.comment("NGINX")
