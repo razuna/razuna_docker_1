@@ -109,3 +109,6 @@ Of course there are other options and you are free to use them, e.g. nsenter, et
 
 If you run into any issues please post it on here under the "Issue" section.
 
+### License
+
+MIT (please read included license file)
