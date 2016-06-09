@@ -1,11 +1,17 @@
 #!/bin/bash
 
 apt-get install -y openssh-server
-mkdir /var/run/sshd
+mkdir -p /var/run/sshd
+mkdir -p /root/.ssh
 echo 'root:razuna' | chpasswd
 sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-sed -re '/AuthorizedKeysFile/ s/^#//' /etc/ssh/sshd_config
 
 # SSH login fix. Otherwise user is kicked off after login
 sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+sed -ri 's/#PermitRootLogin yes/PermitRootLogin yes/g' /etc/ssh/sshd_config
+sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
+sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
+
 echo "export VISIBLE=now" >> /etc/profile
+
+service ssh restart

@@ -39,7 +39,8 @@ if (!shelljs.which('git')) {
 var _cmd = args._;
 var _cmd_string = _cmd[0];
 var _c = args.c && args.c.length ? args.c : false;
-// var _vl = _v && args.v.length && Array.isArray(args.v) ? args.v.length : false;
+var _n = args.n ? args.n : false;
+var _m = args.m ? args.m : false;
 
 // No command given. Output help
 if ( !_cmd.length ) {
@@ -54,14 +55,31 @@ if ( !_cmd.length ) {
 if ( _cmd_string === 'build' ) {
 	actions.build();
 }
-else if ( _cmd_string === 'start' ) {
+else if ( _cmd_string === 'run' ) {
 	if ( !_c ) {
-		console.log('You defined the -c but did not add a configuration file!'.red);
-		shelljs.exit(1);
+		_c = 'default.json';
 	}
-	console.log('We are starting Razuna Docker...'.green);
-	// Get configfuration string
-	
+	console.log('We are creating a new Razuna Docker container with the config file: ' + _c.green);
+	actions.run(_c, _n, _m);
+}
+else if ( _cmd_string === 'start' ) {
+	actions.start();
+}
+else if ( _cmd_string === 'stop' ) {
+	console.log('Stopping the Razuna Docker container. Please wait.'.blue)
+	actions.stop();
+}
+else if ( _cmd_string === 'destroy' ) {
+	console.log('Stopping the Razuna Docker container and removing it. Please wait.'.blue)
+	actions.destroy();
+}
+else if ( _cmd_string === 'cleanup' ) {
+	console.log('Removing all docker containers which are older than a week and not running. This will also remove all untagged images. Please wait.'.blue)
+	actions.cleanup();
+}
+else if ( _cmd_string === 'logs' ) {
+	console.log('Showing the logs to the Razuna Docker container. Please wait.'.blue)
+	actions.logs();
 }
 else {
 	outputHelp(); 
@@ -74,7 +92,7 @@ function outputHelp() {
 	var sections = [
 		{
 			header: 'Razuna Docker Help',
-			content: 'Generates something [italic]{very} important.'
+			content: 'This is the help for runing the razuna_docker script'
 		},
 		{
 			header: 'Commands',
@@ -84,12 +102,32 @@ function outputHelp() {
 					summary: 'Build or re-build the Razuna Docker Container'
 				},
 				{
-					name: 'start -v',
-					summary: 'Start the Razuna Docker Container for you. Note: You should pass in (volumes) in order to have persistant data!'
+					name: 'run [-c config file] [-n] [-m]',
+					summary: 'Start a new Razuna Docker Container.\nOptions:\n-c config_file (default: default.json)\n-n (with Nginx)\n-m (with MySQL)'
+				},
+				{
+					name: 'start',
+					summary: 'Start the existing Razuna Docker Container.'
+				},
+				{
+					name: 'stop',
+					summary: 'Stops the Razuna Docker Container'
+				},
+				{
+					name: 'destroy',
+					summary: 'Stops and removes the Razuna Docker Container'
+				},
+				{
+					name: 'cleanup',
+					summary: 'Removing all docker containers which are older than a week and not running. This will also remove all untagged images.'
+				},
+				{
+					name: 'logs',
+					summary: 'View the docker logs for the Razuna Docker Container.'
 				},
 				{
 					name: 'help', 
-					summary: 'Print this usage guide.'
+					summary: 'Print this usage guide'
 				}
 			]
 		},
@@ -100,32 +138,46 @@ function outputHelp() {
 					name: 'razuna-docker build'
 				},
 				{ 
-					name: 'razuna-docker start -v /home/nitai/razuna/assets:/opt/tomcat/webapps/razuna/assets -v /home/nitai/razuna-searchserver/WEB-INF/collections:/opt/tomcat/webapps/razuna-searchserver/WEB-INF/collections'
-				}
+					name: 'razuna-docker run (with any arguments start with the default settings)'
+				},
+				{ 
+					name: 'razuna-docker run -c myconfig.json'
+				},
+				{ 
+					name: 'razuna-docker run -c myconfig.json -n -m (runs the container with Nginx and MySQL)'
+				},
+				{ 
+					name: 'razuna-docker start'
+				},
+				{ 
+					name: 'razuna-docker stop'
+				},
+				{ 
+					name: 'razuna-docker destroy'
+				},
+				{ 
+					name: 'razuna-docker cleanup'
+				},
+				{ 
+					name: 'razuna-docker logs'
+				},
 			]
 		},
 		{
 			header: 'NOTE',
 			content: [
 				{
-					desc: 'In order to have persistant data you need to store data from the container on your host. The following directories should be mounted with the -v switch:\n\n',
-					example: ''
+					desc: 'In order to have persistant data you need to store data from the container on your host. By default we store all data in the "shared" directory of this scripts path. If you would like to change the path to the storage you can edit the config files in the directory "configuration". After you have made changes you need to rebuild the Razuna Docker image!!!!\n\n',
 				},
-				{ 
-					desc: '--------\nRazuna',
-					example: '--------\n/opt/tomcat/webapps/razuna/assets\n/opt/tomcat/webapps/razuna/db\n/opt/tomcat/webapps/razuna/WEB-INF/bluedragon'
+				{
+					desc: 'The run options -n (Nginx) and -m (MySQL) will only take effect if your Razuna Docker image has been build with Nginx and/or MySQL.\n\n',
 				},
-				{ 
-					desc: '--------\nRazuna-Searchserver',
-					example: '--------\n/opt/tomcat/webapps/razuna-searchserver/WEB-INF/collections\n/opt/tomcat/webapps/razuna/WEB-INF/bluedragon'
-				},
-				{ 
-					desc: '--------\nNginx',
-					example: '--------\n/etc/nginx/nginx.conf\n/etc/nginx/sites-available\n/etc/nginx/sites-enabled'
-				},
-				{ 
-					desc: '--------\nMySQL',
-					example: '--------\n/etc/mysql/my.conf\n/var/lib/mysql\n--------'
+				{
+					desc: 'Developers: Set the dev_mode to true and define the path to your source code directory on your host in the default.json configuration.\n\n',
+				}
+				,
+				{
+					desc: 'Report any issues or feedback at https://github.com/razuna/razuna_docker_1',
 				}
 			]
 		}

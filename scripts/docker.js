@@ -5,7 +5,7 @@ var DockerFile = function() {
 	var dockerFile = new Builder();
 
 	// Function
-	var _createDockerFile = function(nginx, mysql, callback) {
+	var _createDockerFile = function(nginx, mysql, dev_mode, callback) {
 		// Initial 
 		myFile = dockerFile
 			.comment("START")
@@ -25,7 +25,7 @@ var DockerFile = function() {
 			.env("DEBIAN_FRONTEND", "noninteractive")
 			.newLine()
 			.comment("INSTALL")
-			.run("apt-get install -y software-properties-common python-software-properties apt-utils")
+			.run("apt-get install -y software-properties-common python-software-properties apt-utils vim")
 			.newLine()
 			.comment("GIT")
 			.run("apt-get install -y git")
@@ -78,6 +78,7 @@ var DockerFile = function() {
 			.run("apt-get -y install gpac")
 			.newLine()
 			.comment("SSH")
+			.add("authorized_keys", "/root/.ssh/authorized_keys")
 			.add("install-ssh", "/tmp/install-ssh")
 			.run("/tmp/install-ssh")
 			.env("NOTVISIBLE", "in users profile")
@@ -100,17 +101,25 @@ var DockerFile = function() {
 			.newLine()
 			.comment("TOMCAT")
 			.add("install-tomcat", "/tmp/install-tomcat")
-			.run("/tmp/install-tomcat")
-			.newLine()
-			.comment("RAZUNA")
-			.add("install-razuna", "/tmp/install-razuna")
-			.run("/tmp/install-razuna")
+			.run("/tmp/install-tomcat");
+		
+		// Do not install Razuna in container if in dev_mode
+		if (!dev_mode) {
+			myFile = dockerFile
+				.newLine()
+				.comment("RAZUNA")
+				.add("install-razuna", "/tmp/install-razuna")
+				.run("/tmp/install-razuna");
+		}
+		
+		myFile = dockerFile
 			.newLine()
 			.comment("COPY FILES AROUND")
 			.copy("setenv.sh", "/opt/tomcat/bin/setenv.sh")
 			.copy("permgen.sh", "/opt/tomcat/bin/permgen.sh")
 			.copy("tomcat", "/etc/init.d/tomcat")
 			.copy("razuna-server.xml", "/opt/tomcat/bin/razuna-server.xml")
+			.copy("tomcat-users.xml", "/opt/tomcat/conf/tomcat-users.xml")
 			.copy("start.sh", "/opt/start.sh")
 			.newLine()
 			.comment("SET TOMCAT TO START ON REBOOT")

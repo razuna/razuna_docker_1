@@ -3,3 +3,4 @@
 cd /opt/tomcat/webapps
 git clone https://github.com/razuna/razuna.git
 git clone https://github.com/razuna/razuna-searchserver.git
+

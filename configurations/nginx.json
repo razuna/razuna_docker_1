@@ -1,19 +1,19 @@
 {
 	"volumes" : [
 		{
-			"host" : "/Users/nitai/Documents/repos/razuna_docker_1/shared/nginx/sites-enabled",
+			"host" : "",
 			"container" : "/etc/nginx/sites-enabled"
 		},
 		{
-			"host" : "/Users/nitai/Documents/repos/razuna_docker_1/shared/nginx/certs",
+			"host" : "",
 			"container" : "/etc/nginx/certs"
 		},
 		{
-			"host" : "/Users/nitai/Documents/repos/razuna_docker_1/shared/nginx/conf.d",
+			"host" : "",
 			"container" : "/etc/nginx/conf.d"
 		},
 		{
-			"host" : "/Users/nitai/Documents/repos/razuna_docker_1/shared/nginx/logs",
+			"host" : "",
 			"container" : "/var/log/nginx"
 		}
 	],
