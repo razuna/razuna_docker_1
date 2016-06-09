@@ -107,7 +107,7 @@ Of course there are other options and you are free to use them, e.g. nsenter, et
 
 ### Troubleshooting
 
-If you run into any issues please post it on here under the "Issue" section.
+If you run into any issues please post it on [here under the "Issue" section](https://github.com/razuna/razuna_docker_1/issues).
 
 ### License
 
