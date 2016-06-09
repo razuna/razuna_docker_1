@@ -66,19 +66,19 @@ else if ( _cmd_string === 'start' ) {
 	actions.start();
 }
 else if ( _cmd_string === 'stop' ) {
-	console.log('Stopping the Razuna Docker container. Please wait.'.blue)
+	console.log('Stopping the Razuna Docker container. Please wait.'.blue);
 	actions.stop();
 }
 else if ( _cmd_string === 'destroy' ) {
-	console.log('Stopping the Razuna Docker container and removing it. Please wait.'.blue)
+	console.log('Stopping the Razuna Docker container and removing it. Please wait.'.blue);
 	actions.destroy();
 }
 else if ( _cmd_string === 'cleanup' ) {
-	console.log('Removing all docker containers which are older than a week and not running. This will also remove all untagged images. Please wait.'.blue)
+	console.log('Removing all docker containers which are older than a week and not running. This will also remove all untagged images. Please wait.'.blue);
 	actions.cleanup();
 }
 else if ( _cmd_string === 'logs' ) {
-	console.log('Showing the logs to the Razuna Docker container. Please wait.'.blue)
+	console.log('Showing the logs to the Razuna Docker container. Please wait.'.blue);
 	actions.logs();
 }
 else {
@@ -174,8 +174,7 @@ function outputHelp() {
 				},
 				{
 					desc: 'Developers: Set the dev_mode to true and define the path to your source code directory on your host in the default.json configuration.\n\n',
-				}
-				,
+				},
 				{
 					desc: 'Report any issues or feedback at https://github.com/razuna/razuna_docker_1',
 				}

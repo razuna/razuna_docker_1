@@ -25,13 +25,7 @@ var DockerFile = function() {
 			.env("DEBIAN_FRONTEND", "noninteractive")
 			.newLine()
 			.comment("INSTALL")
-			.run("apt-get install -y software-properties-common python-software-properties apt-utils vim")
-			.newLine()
-			.comment("GIT")
-			.run("apt-get install -y git")
-			.newLine()
-			.comment("MEMCACHED")
-			.run("apt-get -y install memcached");
+			.run("apt-get install -y software-properties-common python-software-properties apt-utils vim git memcached");
 
 		// MySQL
 		if (mysql === 'yes') {

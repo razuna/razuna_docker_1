@@ -43,9 +43,9 @@ Ok here we go...\n\
 ----------------------------------------------------------------------------------\n\
 \n'
 			}
-		]
-		var usage = getUsage(sections)
-		console.log(usage.green)
+		];
+		var usage = getUsage(sections);
+		console.log(usage.green);
 
 		// Ask for production or dev 
 		prompt.get([
@@ -121,7 +121,7 @@ Ok here we go...\n\
 				});
 			}
 		});
-	}
+	};
 
 	// Run
 	var _run = function(config_file, nginx, mysql) {
@@ -141,7 +141,7 @@ Ok here we go...\n\
 	};
 
 	// Run
-	var _start = function(config_file, nginx, mysql) {
+	var _start = function() {
 		// Exexute
 		shelljs.exec('docker start razuna_' + package.version, function(code, stdout, stderr) {
 			if (stderr) {
@@ -213,12 +213,3 @@ Ok here we go...\n\
 	
 }();
 module.exports = Actions;
-
-
-
-
-
-
-
-
-
