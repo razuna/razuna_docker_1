@@ -82,13 +82,16 @@ var ConfigReader = function() {
 	var _loopVolumes = function(volumes, pwd_root) {
 		// Params
 		var _volumes = '';
+		var _path_host = '';
 		// Loop
 		volumes.forEach( function(volume) {
 			// Check if host is empty. If so, we store files in our shared directory
 			if (!volume.host) {
 				// Remove the path from container path
-				var _path_host = volume.container.replace('/opt/tomcat/webapps', pwd_root + '/shared');
-				var _path_host = volume.container.replace('/opt/tomcat/logs', pwd_root + '/shared/logs');
+				_path_host = volume.container.replace('/opt/tomcat/webapps', pwd_root + '/shared');
+				_path_host = volume.container.replace('/opt/tomcat/logs', pwd_root + '/shared/logs/tomcat');
+				_path_host = volume.container.replace('/var/log/mysql', pwd_root + '/shared/logs/mysql');
+				_path_host = volume.container.replace('/var/log/nginx', pwd_root + '/shared/logs/nginx');
 				// Set volume path
 				_volumes += ' -v ' + _path_host + ':' + volume.container;
 			}
