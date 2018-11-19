@@ -1,6 +1,6 @@
 # Razuna v1.x Docker Image
 
-This is the offical Docker image for Razuna v1 (Docker image for Razuna v2 is here)[https://github.com/razuna/razuna_docker_2]. With this script you can quickly get Razuna up and running with Docker.
+This is the offical Docker image for Razuna v1. With this script you can quickly get Razuna up and running with Docker.
 
 ### About
 
